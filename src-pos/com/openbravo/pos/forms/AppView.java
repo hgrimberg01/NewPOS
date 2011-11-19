@@ -16,7 +16,6 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
-
 package com.openbravo.pos.forms;
 
 import java.util.Date;
@@ -30,26 +29,39 @@ import com.openbravo.pos.scanpal2.DeviceScanner;
  * @author adrianromero
  */
 public interface AppView {
-    
+
     public DeviceScale getDeviceScale();
+
     public DeviceTicket getDeviceTicket();
+
     public DeviceScanner getDeviceScanner();
-      
+
     public Session getSession();
+
     public AppProperties getProperties();
+
     public Object getBean(String beanfactory) throws BeanFactoryException;
-     
+
     public void setActiveCash(String value, int iSeq, Date dStart, Date dEnd);
+
     public String getActiveCashIndex();
+
     public int getActiveCashSequence();
+
     public Date getActiveCashDateStart();
+
     public Date getActiveCashDateEnd();
-    
+
     public String getInventoryLocation();
-    
+
+    //TODO Interface Changes for Taxes
+    /*public String getLocalTax();
+    public String getLocalTicketLine1();
+    public String getLocalTicketLine2();
+    public String getLocalTicketLine3();*/
     public void waitCursorBegin();
+
     public void waitCursorEnd();
-    
+
     public AppUserView getAppUserView();
 }
-

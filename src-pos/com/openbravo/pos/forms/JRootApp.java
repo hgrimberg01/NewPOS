@@ -213,6 +213,10 @@ public class JRootApp extends JPanel implements AppView {
         
         // Leo la localizacion de la caja (Almacen).
         m_sInventoryLocation = m_propsdb.getProperty("location");
+        
+        //TODO Get the Location setting working
+        //m_sInventoryLocation=m_dlSystem.getHostLocation(m_props.getHost());
+        
         if (m_sInventoryLocation == null) {
             m_sInventoryLocation = "0";
             m_propsdb.setProperty("location", m_sInventoryLocation);
@@ -238,6 +242,12 @@ public class JRootApp extends JPanel implements AppView {
         String sWareHouse;
         try {
             sWareHouse = m_dlSystem.findLocationName(m_sInventoryLocation);
+            
+            
+        //TODO Local Tax Setting FromDB
+        //LocalTaxID = m_dlSystem.findLocalTax(m_sInventoryLocation);	-
+	//System.out.println(LocalTaxID);
+            
         } catch (BasicException e) {
             sWareHouse = null; // no he encontrado el almacen principal
         }        
@@ -298,7 +308,11 @@ public class JRootApp extends JPanel implements AppView {
 
     public String getInventoryLocation() {
         return m_sInventoryLocation;
-    }   
+    }
+    //TODO Returning The Local Tax
+    //public String getLocalTax() {	
+	//return LocalTaxID;	
+	//}   
     public String getActiveCashIndex() {
         return m_sActiveCashIndex;
     }

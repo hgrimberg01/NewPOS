@@ -18,10 +18,12 @@
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.openbravo.pos.forms;
-
+import com.openbravo.basic.BasicException;
 import com.openbravo.pos.config.JFrmConfig;
 import java.awt.BorderLayout;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import com.openbravo.pos.instance.AppMessage;
 import com.openbravo.pos.instance.InstanceManager;
@@ -47,7 +49,7 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
     }
     
     public void initFrame(AppProperties props) {
-        
+        //TODO Exception handling
         m_props = props;
         
         m_rootapp = new JRootApp();
@@ -80,8 +82,10 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
         }
     }
     
+    @Override
     public void restoreWindow() throws RemoteException {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 if (getExtendedState() == JFrame.ICONIFIED) {
                     setExtendedState(JFrame.NORMAL);

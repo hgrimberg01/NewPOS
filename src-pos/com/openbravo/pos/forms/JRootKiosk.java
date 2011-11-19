@@ -19,7 +19,10 @@
 
 package com.openbravo.pos.forms;
 
+import com.openbravo.basic.BasicException;
 import com.openbravo.pos.config.JFrmConfig;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.rmi.RemoteException;
@@ -51,10 +54,12 @@ public class JRootKiosk extends javax.swing.JFrame implements AppMessage {
     
     public void initFrame(AppProperties props) {
         
+        //TODO Exception Handling Fix
+   // try{    
         m_props = props;
-        
+       
         m_rootapp = new JRootApp();
-        
+         
         if (m_rootapp.initApp(m_props)) {
             
             if ("true".equals(props.getProperty("machine.uniqueinstance"))) {
@@ -76,11 +81,17 @@ public class JRootKiosk extends javax.swing.JFrame implements AppMessage {
             setVisible(true);                        
         } else {
             new JFrmConfig(props).setVisible(true); // Show the configuration window.
-        }        
+        } 
+       //}
+       //catch (BasicException ex) {
+         //   Logger.getLogger(JRootKiosk.class.getName()).log(Level.SEVERE, null, ex);
+       // }
     }
     
+    @Override
     public void restoreWindow() throws RemoteException {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 if (getExtendedState() == JFrame.ICONIFIED) {
                     setExtendedState(JFrame.NORMAL);

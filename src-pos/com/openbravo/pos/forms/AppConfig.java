@@ -16,7 +16,6 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>
-
 package com.openbravo.pos.forms;
 
 import java.io.File;
@@ -37,10 +36,9 @@ import java.util.logging.Logger;
 public class AppConfig implements AppProperties {
 
     private static final Logger logger = Logger.getLogger("com.openbravo.pos.forms.AppConfig");
-     
     private Properties m_propsconfig;
     private File configfile;
-      
+
     public AppConfig(String[] args) {
         if (args.length == 0) {
             init(getDefaultConfig());
@@ -48,34 +46,37 @@ public class AppConfig implements AppProperties {
             init(new File(args[0]));
         }
     }
-    
+
     public AppConfig(File configfile) {
         init(configfile);
     }
-    
+
     private void init(File configfile) {
         this.configfile = configfile;
         m_propsconfig = new Properties();
 
         logger.log(Level.INFO, "Reading configuration file: {0}", configfile.getAbsolutePath());
     }
-    
+
     private File getDefaultConfig() {
         return new File(new File(System.getProperty("user.home")), AppLocal.APP_ID + ".properties");
     }
-    
+
+    @Override
     public String getProperty(String sKey) {
         return m_propsconfig.getProperty(sKey);
     }
-    
+
+    @Override
     public String getHost() {
         return getProperty("machine.hostname");
-    } 
-    
+    }
+
+    @Override
     public File getConfigFile() {
         return configfile;
     }
-    
+
     public void setProperty(String sKey, String sValue) {
         if (sValue == null) {
             m_propsconfig.remove(sKey);
@@ -83,7 +84,7 @@ public class AppConfig implements AppProperties {
             m_propsconfig.setProperty(sKey, sValue);
         }
     }
-    
+
     private String getLocalHostName() {
         try {
             return java.net.InetAddress.getLocalHost().getHostName();
@@ -91,12 +92,12 @@ public class AppConfig implements AppProperties {
             return "localhost";
         }
     }
-   
+
     public boolean delete() {
         loadDefault();
         return configfile.delete();
     }
-    
+
     public void load() {
 
         loadDefault();
@@ -107,28 +108,28 @@ public class AppConfig implements AppProperties {
                 m_propsconfig.load(in);
                 in.close();
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             loadDefault();
         }
-    
+
     }
-    
+
     public void save() throws IOException {
-        
+
         OutputStream out = new FileOutputStream(configfile);
         if (out != null) {
             m_propsconfig.store(out, AppLocal.APP_NAME + ". Configuration file.");
             out.close();
         }
     }
-    
+
     private void loadDefault() {
-        
+
         m_propsconfig = new Properties();
-        
+
         String dirname = System.getProperty("dirname.path");
         dirname = dirname == null ? "./" : dirname;
-        
+
         m_propsconfig.setProperty("db.driverlib", new File(new File(dirname), "lib/derby.jar").getAbsolutePath());
         m_propsconfig.setProperty("db.driver", "org.apache.derby.jdbc.EmbeddedDriver");
         m_propsconfig.setProperty("db.URL", "jdbc:derby:" + new File(new File(System.getProperty("user.home")), AppLocal.APP_ID + "-database").getAbsolutePath() + ";create=true");
@@ -140,26 +141,26 @@ public class AppConfig implements AppProperties {
 //        m_propsconfig.setProperty("db.URL", "jdbc:hsqldb:file:" + new File(new File(System.getProperty("user.home")), AppLocal.APP_ID + "-db").getAbsolutePath() + ";shutdown=true");
 //        m_propsconfig.setProperty("db.user", "sa");
 //        m_propsconfig.setProperty("db.password", "");
-        
+
 //        m_propsconfig.setProperty("db.driver", "com.mysql.jdbc.Driver");
 //        m_propsconfig.setProperty("db.URL", "jdbc:mysql://localhost:3306/database");
 //        m_propsconfig.setProperty("db.user", "user");         
 //        m_propsconfig.setProperty("db.password", "password");
-        
+
 //        m_propsconfig.setProperty("db.driver", "org.postgresql.Driver");
 //        m_propsconfig.setProperty("db.URL", "jdbc:postgresql://localhost:5432/database");
 //        m_propsconfig.setProperty("db.user", "user");         
 //        m_propsconfig.setProperty("db.password", "password");        
 
         m_propsconfig.setProperty("machine.hostname", getLocalHostName());
-        
+
         Locale l = Locale.getDefault();
         m_propsconfig.setProperty("user.language", l.getLanguage());
         m_propsconfig.setProperty("user.country", l.getCountry());
-        m_propsconfig.setProperty("user.variant", l.getVariant());     
-        
+        m_propsconfig.setProperty("user.variant", l.getVariant());
+
         m_propsconfig.setProperty("swing.defaultlaf", System.getProperty("swing.defaultlaf", "javax.swing.plaf.metal.MetalLookAndFeel"));
-        
+
         m_propsconfig.setProperty("machine.printer", "screen");
         m_propsconfig.setProperty("machine.printer.2", "Not defined");
         m_propsconfig.setProperty("machine.printer.3", "Not defined");
@@ -168,13 +169,13 @@ public class AppConfig implements AppProperties {
         m_propsconfig.setProperty("machine.screenmode", "window"); // fullscreen / window
         m_propsconfig.setProperty("machine.ticketsbag", "standard");
         m_propsconfig.setProperty("machine.scanner", "Not defined");
-        
+
         m_propsconfig.setProperty("payment.gateway", "external");
         m_propsconfig.setProperty("payment.magcardreader", "Not defined");
         m_propsconfig.setProperty("payment.testmode", "false");
         m_propsconfig.setProperty("payment.commerceid", "");
         m_propsconfig.setProperty("payment.commercepassword", "password");
-        
+
         m_propsconfig.setProperty("machine.printername", "(Default)");
 
         // Receipt printer paper set to 72mmx200mm

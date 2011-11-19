@@ -36,6 +36,8 @@ import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.inventory.AttributeSetInfo;
 import com.openbravo.pos.inventory.TaxCustCategoryInfo;
 import com.openbravo.pos.inventory.LocationInfo;
+//TODO HostInfo
+//import com.openbravo.pos.inventory.HostInfo;
 import com.openbravo.pos.inventory.MovementReason;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.mant.FloorsInfo;
@@ -234,6 +236,25 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         dr.getInt(8));
             }});
     }
+    //TODO Get Local Tax List
+    /*
+     public final SentenceList getLocalTaxList(AppView app) {
+   
+        return new StaticSentence(s
+            , "SELECT ID, NAME, CATEGORY, CUSTCATEGORY, PARENTID, RATE, RATECASCADE, RATEORDER FROM TAXES WHERE ID =\""+app.getLocalTax()+ "\" ORDER BY NAME"
+            , SerializerWriteString.INSTANCE
+            , new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
+                return new TaxInfo(
+                        dr.getString(1), 
+                        dr.getString(2),
+                        dr.getString(3),
+                        dr.getString(4),
+                        dr.getString(5),
+                        dr.getDouble(6).doubleValue(),
+                        dr.getBoolean(7).booleanValue(),
+                        dr.getInt(8));
+            }});
+    }*/
     public final SentenceList getCategoriesList() {
         return new StaticSentence(s
             , "SELECT ID, NAME, IMAGE FROM CATEGORIES ORDER BY NAME"
@@ -266,7 +287,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
     public final SentenceList getLocationsList() {
         return new StaticSentence(s
-            , "SELECT ID, NAME, ADDRESS FROM LOCATIONS ORDER BY NAME"
+            , "SELECT ID, NAME, ADDRESS, TaxID FROM LOCATIONS ORDER BY NAME"
             , null
             , new SerializerReadClass(LocationInfo.class));
     }
@@ -753,7 +774,18 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             , new int[] {0}
         );
     }
-
+    //TODO Local Tax DB Get Information
+    /*
+    public final TableDefinition getTableLocationsWithTax() {
+        return new TableDefinition(s,
+            "LOCATIONS"
+            , new String[] {"ID", "NAME", "ADDRESS", "TaxID"}
+            , new String[] {"ID", AppLocal.getIntString("label.locationname"), AppLocal.getIntString("label.locationaddress"), AppLocal.getIntString("label.locationtaxid")}
+            , new Datas[] {Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING}
+            , new Formats[] {Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING}
+            , new int[] {0}
+        );
+    }*/
     public final TableDefinition getTableLocations() {
         return new TableDefinition(s,
             "LOCATIONS"
@@ -764,7 +796,17 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             , new int[] {0}
         );
     }
-
+    //TODO Get The Host Table
+    /*  public final TableDefinition getTableHosts(){
+            return new TableDefinition(s,
+                    "HOSTS"
+                    ,new String[] {"HOSTID","NAME","LOCATIONID"}
+                    ,new String []{"ID",AppLocal.getIntString("label.hostname"),AppLocal.getIntString("label.locationid")}
+                    ,new Datas [] {Datas.STRING,Datas.STRING,Datas.STRING}
+                    ,new Formats [] {Formats.STRING,Formats.STRING,Formats.STRING}
+                    ,new int[] {0}
+                    );
+        }*/
     protected static class CustomerExtRead implements SerializerRead {
         public Object readValues(DataRead dr) throws BasicException {
             CustomerInfoExt c = new CustomerInfoExt(dr.getString(1));
