@@ -54,8 +54,8 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     protected SentenceFind m_activecash;
     protected SentenceExec m_insertcash;
     //TODO Location and Taxes
-    //private SentenceFind m_taxfind;
-    //private SentenceFind m_getHostLocation;
+    private SentenceFind m_taxfind;
+    private SentenceFind m_getHostLocation;
     private Map<String, byte[]> resourcescache;
 
     /** Creates a new instance of DataLogicSystem */
@@ -106,17 +106,19 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         m_activecash = new StaticSentence(s, "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE MONEY = ?", SerializerWriteString.INSTANCE, new SerializerReadBasic(new Datas[]{Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
         m_insertcash = new StaticSentence(s, "INSERT INTO CLOSEDCASH(MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND) "
                 + "VALUES (?, ?, ?, ?, ?)", new SerializerWriteBasic(new Datas[]{Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
-        //LOCATION AND TAXES  
-        /*m_locationfind = new StaticSentence(s
+        
+        m_locationfind = new StaticSentence(s
         , "SELECT NAME FROM LOCATIONS WHERE ID = ?"
         , SerializerWriteString.INSTANCE
-        , SerializerReadString.INSTANCE);   
+        , SerializerReadString.INSTANCE);  
+         
+        //TODO LOCATION AND TAXES  
         m_taxfind = new StaticSentence(s
         , "SELECT TaxID FROM LOCATIONS WHERE ID = ?"
         , SerializerWriteString.INSTANCE
         , SerializerReadString.INSTANCE);  
         m_getHostLocation = new StaticSentence(s,"SELECT LOCATIONID FROM HOSTS WHERE NAME=?", SerializerWriteString.INSTANCE
-        , SerializerReadString.INSTANCE*/
+        , SerializerReadString.INSTANCE);
         resetResourcesCache();
     }
 
@@ -254,14 +256,17 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         m_insertcash.exec(cash);
     }
 
-    public final String findLocationName(String iLocation) throws BasicException {
-        return (String) m_locationfind.find(iLocation);
-    }
-}
+   public final String findLocationName(String iLocation) throws BasicException {
+       return (String) m_locationfind.find(iLocation);
+       
+   }
+
 //TODO Location Tax DB Handling at the system level
-   /* public final String getHostLocation(String hostName) throws BasicException{
+    public final String getHostLocation(String hostName) throws BasicException{
         return (String) m_getHostLocation.find(hostName);
     }
     public final String findLocalTax(String iLocation) throws BasicException{
         return (String) m_taxfind.find(iLocation);
-    }*/
+    }
+    
+}

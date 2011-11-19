@@ -43,7 +43,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
     /** Creates a new instance of DataLogicReceipts */
     public DataLogicReceipts() {
     }
-    
+       @Override
     public void init(Session s){
         this.s = s;
     }

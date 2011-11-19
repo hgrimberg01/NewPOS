@@ -193,6 +193,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         protected Object parseValueInt(String value) throws ParseException {
             return value;
         }
+        @Override
         public int getAlignment() {
             return javax.swing.SwingConstants.LEFT;
         }         
