@@ -69,6 +69,11 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
         
         return true;
     }
+
+    @Override
+    public String getLocalTax() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     private class MyFrameListener extends WindowAdapter{
         

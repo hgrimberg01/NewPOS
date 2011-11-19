@@ -55,10 +55,8 @@ public interface AppView {
     public String getInventoryLocation();
 
     //TODO Interface Changes for Taxes
-    /*public String getLocalTax();
-    public String getLocalTicketLine1();
-    public String getLocalTicketLine2();
-    public String getLocalTicketLine3();*/
+    public String getLocalTax();
+
     public void waitCursorBegin();
 
     public void waitCursorEnd();
