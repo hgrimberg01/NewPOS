@@ -166,8 +166,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         catcontainer.add(getSouthComponent(), BorderLayout.CENTER);
         
         // El modelo de impuestos
-        senttax = dlSales.getTaxList();
+       // senttax = dlSales.getTaxList();
+      //  senttaxcategories = dlSales.getTaxCategoriesList();
+        
+        senttax = dlSales.getLocalTaxList(m_App);
+        System.out.println(senttax);
         senttaxcategories = dlSales.getTaxCategoriesList();
+        System.out.println(senttaxcategories);
         
         taxcategoriesmodel = new ComboBoxValModel();    
               

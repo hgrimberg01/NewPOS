@@ -16,7 +16,6 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
-
 package com.openbravo.pos.inventory;
 
 import javax.swing.ListCellRenderer;
@@ -31,54 +30,64 @@ import com.openbravo.data.user.SaveProvider;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.panels.JPanelTable;
+import com.openbravo.basic.BasicException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author adrianromero
  */
 public class LocationsPanel extends JPanelTable {
-    
+
     private TableDefinition tlocations;
     private LocationsView jeditor;
-    
+
     /** Creates a new instance of LocationsPanel */
     public LocationsPanel() {
     }
-    
-    protected void init() {   
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");          
-        tlocations = dlSales.getTableLocations();
-        jeditor = new LocationsView(dirty);
+
+    @Override
+    protected void init() {
+        DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+        tlocations = dlSales.getTableLocationsWithTax();
+        try {
+            jeditor = new LocationsView(dirty, dlSales);
+        } catch (BasicException ex) {
+            Logger.getLogger(LocationsPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
+    @Override
     public ListProvider getListProvider() {
         return new ListProviderCreator(tlocations);
     }
-    
+
+    @Override
     public SaveProvider getSaveProvider() {
-        return new SaveProvider(tlocations);        
+        return new SaveProvider(tlocations);
     }
-    
+
     @Override
     public Vectorer getVectorer() {
         return tlocations.getVectorerBasic(new int[]{1, 2});
     }
-    
+
     @Override
     public ComparatorCreator getComparatorCreator() {
-        return tlocations.getComparatorCreator(new int[] {1, 2});
+        return tlocations.getComparatorCreator(new int[]{1, 2});
     }
-    
+
     @Override
     public ListCellRenderer getListCellRenderer() {
         return new ListCellRendererBasic(tlocations.getRenderStringBasic(new int[]{1}));
     }
-    
+
     public EditorRecord getEditor() {
         return jeditor;
     }
-    
+
     public String getTitle() {
         return AppLocal.getIntString("Menu.Locations");
-    }      
+    }
 }
