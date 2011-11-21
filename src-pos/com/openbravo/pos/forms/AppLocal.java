@@ -27,9 +27,9 @@ import com.openbravo.beans.LocaleResources;
  */
 public class AppLocal {
     
-    public static final String APP_NAME = "uniCenta oPOS";
-    public static final String APP_ID = "unicentaopos";
-    public static final String APP_VERSION = "2.80";
+    public static final String APP_NAME = "newPosAlpha";
+    public static final String APP_ID = "newposalpha";
+    public static final String APP_VERSION = "0.1a";
   
     // private static List<ResourceBundle> m_messages;
     private static final LocaleResources m_resources;
